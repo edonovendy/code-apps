@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Kabar Berita</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- font -->
+    <string name="GothamRndBold">fonts/GothamRnd-Bold.ttf</string>
+    <string name="GothamRndMedium">fonts/GothamRnd-Medium.ttf</string>
+    <string name="GothamRndMediumItalic">fonts/GothamRnd-MedIta.ttf</string>
+    <string name="GothamRndLightItalic">fonts/GothamRnd-BookIta.ttf</string>
+
+    <string-array name="nav_drawer_labels">
+        <item>Business</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+        <item>All News</item>
+    </string-array>
+
+</resources>
