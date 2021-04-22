@@ -63,7 +63,7 @@ public class ActivityDetail extends AppCompatActivity {
     }
 
     public void goToSource(View view) {
-        AppData.source = source;
+        AppData.url = source;
         Intent intent = new Intent(ActivityDetail.this, ActivityWeb.class);
         startActivity(intent);
     }

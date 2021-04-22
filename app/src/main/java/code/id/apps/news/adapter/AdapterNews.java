@@ -47,7 +47,7 @@ import code.id.apps.news.view.activity.ActivityDetail;
                     .placeholder(R.drawable.img_default)
                     .into(holder.image);
             holder.title.setText(news.getTitleNews());
-            holder.date.setText(news.getDateNews().substring(0, 10) + " " + news.getDateNews().substring(11, 16));
+            holder.date.setText(news.getSource().getName() + " pada "+news.getDateNews().substring(0, 10) + " " + news.getDateNews().substring(11, 16));
             if (news.getAuthorNews() == null || news.getAuthorNews().isEmpty()) {
                 holder.author.setText("Penulis Tidak Diketahui");
             } else {
@@ -69,7 +69,7 @@ import code.id.apps.news.view.activity.ActivityDetail;
                 } else {
                     i.putExtra("authorNews", news.getAuthorNews());
                 }
-                i.putExtra("sourceNews", news.getSourceNews());
+                i.putExtra("sourceNews", news.getUrlNews());
                 context.startActivity(i);
                 ((Activity) context).overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             });

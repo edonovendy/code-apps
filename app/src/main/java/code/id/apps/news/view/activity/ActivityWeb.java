@@ -35,7 +35,7 @@ public class ActivityWeb extends AppCompatActivity {
         ButterKnife.bind(this);
         searchView.setVisibility(View.GONE);
         setSupportActionBar(toolBar);
-        webArticle.loadUrl(AppData.source);
+        webArticle.loadUrl(AppData.url);
     }
 
     @Override

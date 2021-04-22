@@ -2,8 +2,10 @@ package code.id.apps.news.view.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +50,9 @@ public class ActivityHome extends AppCompatActivity implements FragmentDrawer.Fr
 
     @BindView(R.id.search_news)
     SearchView searchNews;
+
+    @BindView(R.id.title)
+    TextView title;
 
 
     @Override
@@ -113,41 +118,41 @@ public class ActivityHome extends AppCompatActivity implements FragmentDrawer.Fr
         displayView(x);
     }
 
-    private void displayView(int position) {
+    public void displayView(int position) {
         Fragment fragment = new FragmentNews();
         switch (position) {
             case BUSINESS:
-                AppData.category = "business";
+                AppData.category = "Business";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
             case ENTERTAINMENT:
-                AppData.category = "entertainment";
+                AppData.category = "Entertainment";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
             case HEALTH:
-                AppData.category = "health";
+                AppData.category = "Health";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
             case SCIENCE:
-                AppData.category = "science";
+                AppData.category = "Science";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
             case SPORTS:
-                AppData.category = "sports";
+                AppData.category = "Sports";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
             case TECHNOLOGY:
-                AppData.category = "technology";
+                AppData.category = "Technology";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
             case NEWS_ALL:
-                AppData.category = "general";
+                AppData.category = "General";
                 AppData.search = "";
                 searchNews.onActionViewCollapsed();
                 break;
@@ -158,6 +163,12 @@ public class ActivityHome extends AppCompatActivity implements FragmentDrawer.Fr
             default:
                 break;
         }
+
+        Log.d("ActivityHome", AppData.category);
+        if(!AppData.category.isEmpty())
+            title.setText(AppData.category);
+        else
+            title.setText(("Search "));
 
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();

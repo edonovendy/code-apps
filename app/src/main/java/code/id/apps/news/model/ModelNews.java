@@ -14,17 +14,22 @@ public class ModelNews {
     String date;
     @SerializedName("author")
     String author;
-    @SerializedName("description")
-    String description;
+    @SerializedName("content")
+    String content;
     @SerializedName("url")
-    String source;
+    String url;
+    @SerializedName("source")
+    ModelSource source;
 
-    public ModelNews(String img, String title, String date, String author, String description, String source) {
+    public ModelNews() { }
+
+    public ModelNews(String img, String title, String date, String author, String content, String url, ModelSource source) {
         this.img = img;
         this.title = title;
         this.date = date;
         this.author = author;
-        this.description = description;
+        this.content = content;
+        this.url = url;
         this.source = source;
     }
 
@@ -44,11 +49,13 @@ public class ModelNews {
         return author;
     }
 
-    public String getContentNews() {
-        return description;
+    public String getContentNews() { return content; }
+
+    public String getUrlNews() {
+        return url;
     }
 
-    public String getSourceNews() {
-        return source;
-    }
+    public ModelSource getSource() { return source; }
 }
+
+

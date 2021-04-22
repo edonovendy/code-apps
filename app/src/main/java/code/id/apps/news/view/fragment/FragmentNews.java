@@ -1,6 +1,7 @@
 package code.id.apps.news.view.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +19,9 @@ import butterknife.ButterKnife;
 import code.id.apps.BuildConfig;
 import code.id.apps.R;
 import code.id.apps.news.adapter.AdapterNews;
+import code.id.apps.news.adapter.AdapterNewsSource;
 import code.id.apps.news.model.ModelNews;
+import code.id.apps.news.model.ModelSource;
 import code.id.apps.news.utils.api.ApiService;
 import code.id.apps.news.utils.api.ResponseApi;
 import code.id.apps.news.utils.api.Server;
@@ -31,16 +35,21 @@ import retrofit2.Response;
  */
 public class FragmentNews extends Fragment {
 
-    private AdapterNews adapterNews;
-    private List<ModelNews> modelNews;
+    private static AdapterNews adapterNews;
+    private static RecyclerView rvNews;
+    private List<ModelNews> modelNews = new ArrayList<>();;
+    private List<ModelNews> modelNewsCopy = new ArrayList<>();;
+    private AdapterNewsSource adapterSource;
+    private List<ModelSource> modelSource;
     private ProgressDialog progressLoading;
     private ApiService apiService;
 
-    @BindView(R.id.list_news)
-    RecyclerView rvNews;
+    @BindView(R.id.list_source)
+    RecyclerView rvSource;
 
     @BindView(R.id.text_empty)
     TextView tvEmpty;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,8 +57,10 @@ public class FragmentNews extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.bind(this, rootView);
         apiService = Server.getApiService();
-        modelNews = new ArrayList<>();
+
+        rvNews = rootView.findViewById(R.id.list_news);
         adapterNews = new AdapterNews(getActivity(), modelNews);
+        adapterSource = new AdapterNewsSource(getActivity(), modelSource);
 
         rvNews.setHasFixedSize(true);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,13 +86,35 @@ public class FragmentNews extends Fragment {
                         if(response.body().getTotalResults() == 0){
                             tvEmpty.setVisibility(View.VISIBLE);
                             rvNews.setVisibility(View.GONE);
+                            rvSource.setVisibility(View.GONE);
                         }
                         else {
                             tvEmpty.setVisibility(View.GONE);
                             rvNews.setVisibility(View.VISIBLE);
+                            rvSource.setVisibility(View.VISIBLE);
+
+                            //Get all news on selected category
                             modelNews = response.body().getNewsList();
+                            AppData.listModelNews = modelNews;
                             rvNews.setAdapter(new AdapterNews(getActivity(), modelNews));
                             adapterNews.notifyDataSetChanged();
+
+                            //Get news sources from selected category
+                            List<ModelSource> sourceList = new ArrayList<>();
+                            sourceList.add(new ModelSource("All", "All"));
+                            for(int i=0;i<modelNews.size();i++){
+                                String source_name = modelNews.get(i).getSource().getName();
+                                if(!containsName(sourceList, source_name)){
+                                    sourceList.add(new ModelSource(source_name,source_name.trim()));
+                                }
+                            }
+
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                            linearLayoutManager.setSmoothScrollbarEnabled(false);
+                            modelSource = sourceList;
+                            rvSource.setLayoutManager(linearLayoutManager);
+                            rvSource.setAdapter(new AdapterNewsSource(getActivity(), modelSource));
+                            adapterSource.notifyDataSetChanged();
                         }
                     } else {
                         hideDialog();
@@ -111,6 +144,22 @@ public class FragmentNews extends Fragment {
                             modelNews = response.body().getNewsList();
                             rvNews.setAdapter(new AdapterNews(getActivity(), modelNews));
                             adapterNews.notifyDataSetChanged();
+
+                            //Get news sources from selected category
+                            List<ModelSource> sourceList = new ArrayList<>();
+                            for(int i=0;i<modelNews.size();i++){
+                                String source_name = modelNews.get(i).getSource().getName();
+                                if(!containsName(sourceList, source_name)){
+                                    sourceList.add(new ModelSource(source_name,source_name.trim()));
+                                }
+                            }
+
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                            linearLayoutManager.setSmoothScrollbarEnabled(false);
+                            modelSource = sourceList;
+                            rvSource.setLayoutManager(linearLayoutManager);
+                            rvSource.setAdapter(new AdapterNewsSource(getActivity(), modelSource));
+                            adapterSource.notifyDataSetChanged();
                         }
                     } else {
                         hideDialog();
@@ -135,5 +184,30 @@ public class FragmentNews extends Fragment {
     private void hideDialog() {
         if (progressLoading.isShowing())
             progressLoading.dismiss();
+    }
+
+    public static boolean containsName(List<ModelSource> list, String name) {
+        for (ModelSource object : list) {
+            if (object.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void filter(Context context, String filterText) {
+        filterText = filterText.toLowerCase(Locale.getDefault());
+        if(filterText.equalsIgnoreCase("All")){
+            modelNews = AppData.listModelNews;
+        }else {
+            for (ModelNews news : AppData.listModelNews) {
+                if (news.getSource().getName().toLowerCase(Locale.getDefault()).contains(filterText)) {
+                    modelNews.add(news);
+                }
+            }
+        }
+        rvNews.setAdapter(new AdapterNews(context, modelNews));
+        adapterNews.notifyDataSetChanged();
+
     }
 }

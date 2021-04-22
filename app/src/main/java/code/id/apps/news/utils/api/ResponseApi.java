@@ -25,17 +25,13 @@ public class ResponseApi {
         this.status = status;
     }
 
-    public int getTotalResults() {
-        return totalResults;
-    }
+    public int getTotalResults() { return totalResults; }
 
     public void setTotalResults(int totalResults) {
         this.totalResults = totalResults;
     }
 
-    public List<ModelNews> getNewsList() {
-        return newsList;
-    }
+    public List<ModelNews> getNewsList() { return newsList; }
 
     public void setNewsList(List<ModelNews> newsList) {
         this.newsList = newsList;
