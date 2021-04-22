@@ -10,3 +10,5 @@ Aplikasi ini menggunakan api dari https://newsapi.org/
   5. Mencari artikel atau sumber data yang ingin dibaca
   6. Menggunakan recyclerview untuk menampilkan sumber berita dan artikel
   7. Sudah tercover positif dan negatif case
+
+[![Kabar Berita](https://img.youtube.com/vi/dRrquuv4dTQ/0.jpg)](https://www.youtube.com/watch?v=dRrquuv4dTQ)
