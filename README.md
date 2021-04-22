@@ -3,7 +3,7 @@ Merupakan repository yang berisi aplikasi android dengan nama **Kabar Berita**
 Aplikasi ini menggunakan api dari https://newsapi.org/
 
 ## Fitur Kabar Berita :
-  1. Menampilkan kategori berita (Bussiness, Entertainment, Health, Science, Sports, Technology, dan General)
+  1. Menampilkan kategori berita (Business, Entertainment, Health, Science, Sports, Technology, dan General)
   2. Menampilkan sumber berita dari tiap kategori berita (Kompas.com, Detik.com, Cnbcindonesia.com, dsb)
   3. Menampilkan seluruh artikel dari tiap sumber berita
   4. Menampilkan artikel lengkap di dalam webview
